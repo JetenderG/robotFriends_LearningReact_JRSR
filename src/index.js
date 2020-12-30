@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/App'
 import 'tachyons';
-import {robots} from './robots'//need to destructure to grab individual things
+//import {robots} from './robots'//need to destructure to grab individual things
 import reportWebVitals from './reportWebVitals'
 ReactDOM.render(<App/>, document.getElementById('root')
 );

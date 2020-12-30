@@ -1,37 +1,33 @@
-import {Component} from 'react';
+import { useState, useEffect} from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll'
 import ErrorBoundary from '../components/ErrorBoundary'
 import './App.css'
 //State an Object the describes the application in which change (re-render conponents)
-class App extends Component { //this is smart components as it has state also has class
-    constructor(){
-        super()//Call the constructor of components
-        this.state = {
-            robots: [],
-            searchfield: ''
-        }
-    }
-    componentDidMount(){
+const App = () => { //this is smart components as it has state also has class
+        const [robots, setRobots] = useState([])
+        const [searchfield, setSearchField] = useState('')
+        const [count,setCount] = useState(0)
+        useEffect(() =>{
         fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())
-        .then(users => this.setState({ robots : users })
-    )};
-    onSearchChange = (event) =>{
-            this.setState({ searchfield: event.target.value})
+        .then(users =>{ setRobots(users)})
+        console.log(count)
+            },[count]);// only run if count changes
+        const onSearchChange = (event) =>{
+            setSearchField(event.target.value)
         }
-    render () {
-        const {robots, searchfield} = this.state
-        const filteredRobots = robots.filter(robot =>{
-            return robot.name.toLowerCase().includes(searchfield.toLowerCase())
-        })
+             const filteredRobots = robots.filter(robot =>{
+              return robot.name.toLowerCase().includes(searchfield.toLowerCase())
+         })             
         return (!robots.length)?
              <h1>Loading</h1> :
              (
             <div className='tc'>
              <h1 className='f2'>RoboFriends</h1>
-            <SearchBox searchChange={this.onSearchChange}/>
+             <button onClick={()=>setCount(count+1)}>Click Me!</button>
+            <SearchBox searchChange={onSearchChange}/>
             <Scroll>
                 <ErrorBoundary>
                      <CardList robots={filteredRobots}/> 
@@ -40,5 +36,4 @@ class App extends Component { //this is smart components as it has state also ha
             </div>
         );
         }
-    }
 export default App;
